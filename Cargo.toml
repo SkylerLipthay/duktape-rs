@@ -1,0 +1,18 @@
+[package]
+name = "duktape"
+version = "0.1.0"
+authors = ["Skyler Lipthay <sl@skylerlipthay.com>"]
+
+[dependencies]
+bindgen = { version = "0.36", optional = true }
+
+[build-dependencies]
+cc = "1.0"
+
+[features]
+build-ffi-gen = ["bindgen"]
+
+[[bin]]
+name = "ffi-gen"
+path = "src/ffi_gen.rs"
+required-features = ["build-ffi-gen"]
