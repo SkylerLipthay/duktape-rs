@@ -15,6 +15,14 @@ fn write_wrapper_header() -> io::Result<()> {
 
     writeln!(header_file, "#include \"duktape.h\"")?;
 
+    for &(t, n) in MACRO_CONSTANTS {
+        try!(writeln!(header_file, ""));
+        try!(writeln!(header_file, "#pragma push_macro({:?})", n));
+        try!(writeln!(header_file, "#undef {}", n));
+        try!(writeln!(header_file, "const {} {};", t, n));
+        try!(writeln!(header_file, "#pragma pop_macro({:?})", n));
+    }
+
     for &(rt, n, ps) in MACRO_FUNCTIONS {
         writeln!(header_file, "")?;
         writeln!(header_file, "#pragma push_macro({:?})", n)?;
@@ -31,6 +39,15 @@ fn write_wrapper_c_file() -> io::Result<()> {
     let mut c_file = File::create("duktape/wrapper.c")?;
 
     writeln!(c_file, "#include \"wrapper.h\"")?;
+
+    for &(t, n) in MACRO_CONSTANTS {
+        try!(writeln!(c_file, ""));
+        try!(writeln!(c_file, "#pragma push_macro({:?})", n));
+        try!(writeln!(c_file, "#undef {}", n));
+        try!(writeln!(c_file, "const {} {} =", t, n));
+        try!(writeln!(c_file, "#pragma pop_macro({:?})", n));
+        try!(writeln!(c_file, "  {};", n));
+    }
 
     for &(rt, n, ps) in MACRO_FUNCTIONS {
         writeln!(c_file, "")?;
@@ -71,6 +88,11 @@ type MacroFunctionDescRet = &'static str;
 type MacroFunctionDescName = &'static str;
 type MacroFunctionDescArgs = &'static [(&'static str, &'static str)];
 type MacroFunctionDesc = (MacroFunctionDescRet, MacroFunctionDescName, MacroFunctionDescArgs);
+
+const MACRO_CONSTANTS: &'static [(&'static str, &'static str)] = &[
+    ("duk_idx_t", "DUK_INVALID_INDEX"),
+    ("duk_int_t", "DUK_VARARGS")
+];
 
 const MACRO_FUNCTIONS: &'static [MacroFunctionDesc] = &[
     ("duk_context *", "duk_create_heap_default",

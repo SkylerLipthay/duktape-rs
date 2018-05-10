@@ -1865,6 +1865,14 @@ extern "C" {
     ) -> duk_double_t;
 }
 extern "C" {
+    #[link_name = "\u{1}DUK_INVALID_INDEX"]
+    pub static mut DUK_INVALID_INDEX: duk_idx_t;
+}
+extern "C" {
+    #[link_name = "\u{1}DUK_VARARGS"]
+    pub static mut DUK_VARARGS: duk_int_t;
+}
+extern "C" {
     pub fn duk_create_heap_default() -> *mut duk_context;
 }
 extern "C" {

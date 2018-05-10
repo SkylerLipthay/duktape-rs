@@ -1,5 +1,17 @@
 #include "wrapper.h"
 
+#pragma push_macro("DUK_INVALID_INDEX")
+#undef DUK_INVALID_INDEX
+const duk_idx_t DUK_INVALID_INDEX =
+#pragma pop_macro("DUK_INVALID_INDEX")
+  DUK_INVALID_INDEX;
+
+#pragma push_macro("DUK_VARARGS")
+#undef DUK_VARARGS
+const duk_int_t DUK_VARARGS =
+#pragma pop_macro("DUK_VARARGS")
+  DUK_VARARGS;
+
 #pragma push_macro("duk_create_heap_default")
 #undef duk_create_heap_default
 duk_context * duk_create_heap_default() {
