@@ -299,3 +299,16 @@ void duk_dump_context_stdout(duk_context *ctx);
 #undef duk_dump_context_stderr
 void duk_dump_context_stderr(duk_context *ctx);
 #pragma pop_macro("duk_dump_context_stderr")
+
+// Like `duk_push_c_function`, but negative values from `func` are handled
+// differently. Instead of being able to return `DUK_RET_xxx`, `func` can return
+// `-1` (all negatively values are handled the same currently) to have an error
+// object pushed to the top of the stack be thrown.
+//
+// When `func` returns a non-negative integer, this function is handled
+// equivalent to how it is handled with `duk_push_c_function`.
+//
+// This function assigns a hidden property named `"__NOTHROWFUNC"` on the newly
+// created function (`DUK_HIDDEN_SYMBOL("__NOTHROWFUNC")`).
+duk_idx_t duk_push_c_function_nothrow(duk_context *ctx, duk_c_function func,
+    duk_idx_t nargs);

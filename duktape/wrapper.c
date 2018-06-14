@@ -417,3 +417,25 @@ void duk_dump_context_stderr(duk_context *ctx) {
 #pragma pop_macro("duk_dump_context_stderr")
   duk_dump_context_stderr(ctx);
 }
+
+duk_ret_t handle_func_nothrow(duk_context *ctx) {
+  duk_push_current_function(ctx);
+  duk_get_prop_string(ctx, -1, DUK_HIDDEN_SYMBOL("__NOTHROWFUNC"));
+  duk_c_function func = (duk_c_function)duk_get_pointer(ctx, -1);
+  duk_pop_n(ctx, 2);
+
+  duk_ret_t result = func(ctx);
+  if (result >= 0) {
+    return result;
+  }
+
+  return duk_throw(ctx);
+}
+
+duk_idx_t duk_push_c_function_nothrow(duk_context *ctx, duk_c_function func,
+    duk_idx_t nargs) {
+  duk_idx_t result = duk_push_c_function(ctx, handle_func_nothrow, nargs);
+  duk_push_pointer(ctx, func);
+  duk_put_prop_string(ctx, -2, DUK_HIDDEN_SYMBOL("__NOTHROWFUNC"));
+  return result;
+}

@@ -2145,6 +2145,13 @@ extern "C" {
 extern "C" {
     pub fn duk_dump_context_stderr(ctx: *mut duk_context);
 }
+extern "C" {
+    pub fn duk_push_c_function_nothrow(
+        ctx: *mut duk_context,
+        func: duk_c_function,
+        nargs: duk_idx_t,
+    ) -> duk_idx_t;
+}
 pub type __builtin_va_list = [__va_list_tag; 1usize];
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
