@@ -3,14 +3,19 @@ name = "duktape"
 version = "0.1.1"
 authors = ["Skyler Lipthay <sl@skylerlipthay.com>"]
 
+[features]
+# Prevents Duktape from recording tracebacks (undefines `DUK_USE_TRACEBACKS`).
+prevent-tracebacks = []
+
+# Allows the compilation of a binary `ffi-gen` that creates bindings from the
+# `duktape` folder (see `src/ffi_gen.rs`).
+build-ffi-gen = ["bindgen"]
+
 [dependencies]
 bindgen = { version = "0.36", optional = true }
 
 [build-dependencies]
 cc = "1.0"
-
-[features]
-build-ffi-gen = ["bindgen"]
 
 [[bin]]
 name = "ffi-gen"
