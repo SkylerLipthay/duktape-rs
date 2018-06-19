@@ -1,6 +1,6 @@
 [package]
 name = "duktape"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Skyler Lipthay <sl@skylerlipthay.com>"]
 
 [features]
