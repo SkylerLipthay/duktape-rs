@@ -1,10 +1,5 @@
 extern crate cc;
 
-#[cfg(feature = "prevent-tracebacks")]
-const PREVENT_TRACEBACKS: bool = true;
-#[cfg(not(feature = "prevent-tracebacks"))]
-const PREVENT_TRACEBACKS: bool = false;
-
 fn main() {
     let mut builder = cc::Build::new();
 
@@ -13,8 +8,12 @@ fn main() {
         .file("duktape/duktape.c")
         .file("duktape/wrapper.c");
 
-    if PREVENT_TRACEBACKS {
-        builder.define("RUST_DUK_PREVENT_TRACEBACKS", None);
+    if cfg!(feature = "use-tracebacks") {
+        builder.define("RUST_DUK_USE_TRACEBACKS", None);
+    }
+
+    if cfg!(feature = "use-augment-error-create") {
+        builder.define("RUST_DUK_USE_AUGMENT_ERROR_CREATE", None);
     }
 
     builder.compile("libduktape.a");

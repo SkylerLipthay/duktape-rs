@@ -8,8 +8,12 @@
 
 #include "duk_config_default.h"
 
-#ifdef RUST_DUK_PREVENT_TRACEBACKS
+#ifndef RUST_DUK_USE_TRACEBACKS
 #undef DUK_USE_TRACEBACKS
+#endif
+
+#ifndef RUST_DUK_USE_AUGMENT_ERROR_CREATE
+#undef DUK_USE_AUGMENT_ERROR_CREATE
 #endif
 
 #endif // CUSTOM_DUK_CONFIG_H_INCLUDED

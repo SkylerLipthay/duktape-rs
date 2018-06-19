@@ -4,8 +4,12 @@ version = "0.1.2"
 authors = ["Skyler Lipthay <sl@skylerlipthay.com>"]
 
 [features]
-# Prevents Duktape from recording tracebacks (undefines `DUK_USE_TRACEBACKS`).
-prevent-tracebacks = []
+default = ["use-tracebacks", "use-augment-error-create"]
+
+# `DUK_USE_TRACEBACKS`
+use-tracebacks = []
+# `DUK_USE_AUGMENT_ERROR_CREATE`
+use-augment-error-create = []
 
 # Allows the compilation of a binary `ffi-gen` that creates bindings from the
 # `duktape` folder (see `src/ffi_gen.rs`).
