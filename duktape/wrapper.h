@@ -312,3 +312,12 @@ void duk_dump_context_stderr(duk_context *ctx);
 // created function (`DUK_HIDDEN_SYMBOL("__NOTHROWFUNC")`).
 duk_idx_t duk_push_c_function_nothrow(duk_context *ctx, duk_c_function func,
     duk_idx_t nargs);
+
+// The callback type for `duk_set_exec_timeout_function`.
+typedef duk_bool_t (*duk_exec_timeout_function)(void *udata);
+
+// Sets the global timeout callback. This should be set only once per
+// application, as it is shared between all contexts. See
+// `DUK_USE_EXEC_TIMEOUT_CHECK` for more information on how this callback should
+// function.
+void duk_set_exec_timeout_function(duk_exec_timeout_function func);

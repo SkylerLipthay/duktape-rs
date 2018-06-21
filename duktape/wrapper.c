@@ -439,3 +439,18 @@ duk_idx_t duk_push_c_function_nothrow(duk_context *ctx, duk_c_function func,
   duk_put_prop_string(ctx, -2, DUK_HIDDEN_SYMBOL("__NOTHROWFUNC"));
   return result;
 }
+
+duk_bool_t default_exec_timeout_func(void *udata) {
+  (void)(udata);
+  return 0;
+}
+
+static duk_exec_timeout_function EXEC_TIMEOUT_FUNC = default_exec_timeout_func;
+
+void duk_set_exec_timeout_function(duk_exec_timeout_function func) {
+  EXEC_TIMEOUT_FUNC = func;
+}
+
+duk_exec_timeout_function duk_get_exec_timeout_function() {
+  return EXEC_TIMEOUT_FUNC;
+}

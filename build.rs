@@ -16,5 +16,9 @@ fn main() {
         builder.define("RUST_DUK_USE_AUGMENT_ERROR_CREATE", None);
     }
 
+    if cfg!(feature = "use-exec-timeout-check") {
+        builder.define("RUST_DUK_USE_EXEC_TIMEOUT_CHECK", None);
+    }
+
     builder.compile("libduktape.a");
 }

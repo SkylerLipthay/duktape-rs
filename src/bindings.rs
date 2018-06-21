@@ -2152,6 +2152,11 @@ extern "C" {
         nargs: duk_idx_t,
     ) -> duk_idx_t;
 }
+pub type duk_exec_timeout_function =
+    ::std::option::Option<unsafe extern "C" fn(udata: *mut ::std::os::raw::c_void) -> duk_bool_t>;
+extern "C" {
+    pub fn duk_set_exec_timeout_function(func: duk_exec_timeout_function);
+}
 pub type __builtin_va_list = [__va_list_tag; 1usize];
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
